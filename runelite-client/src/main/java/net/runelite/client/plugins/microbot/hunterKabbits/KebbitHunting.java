@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.plugins.microbot.util.walker.enums.Kebbits;
-import net.runelite.client.plugins.microbot.util.walker.enums.Salamanders;
 
 @Getter
 @RequiredArgsConstructor
@@ -22,4 +21,20 @@ public enum KebbitHunting {
     public String toString() {
         return name;
     }
+
+    public String getNpcName() {
+        switch (this) {
+            case SPOTTED:
+                return "Spotted kebbit";
+            case DASHING:
+                return "Dashing kebbit";
+            case DARK:
+                return "Dark kebbit";
+            case BARBTAILED:
+                return "Barb-tailed kebbit";
+            default:
+                return "Spotted kebbit";
+        }
+    }
+
 }
