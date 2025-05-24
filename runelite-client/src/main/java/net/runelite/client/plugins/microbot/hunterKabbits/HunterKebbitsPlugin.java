@@ -11,6 +11,7 @@ import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.gameval.ObjectID;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -44,6 +45,8 @@ public class HunterKebbitsPlugin extends Plugin {
     private HunterKabbitsScript script;
     private WorldPoint lastTickLocalPlayerLocation;
     private Instant scriptStartTime;
+    @Inject
+    private EventBus eventBus;
 
     @Provides
     HunterKebbitsConfig provideConfig(ConfigManager configManager) {
@@ -58,6 +61,8 @@ public class HunterKebbitsPlugin extends Plugin {
         overlayManager.add(kebbitsOverlay);
         script = new HunterKabbitsScript();
         script.run(config, this);
+        eventBus.register(script);
+
     }
 
     @Override
@@ -68,6 +73,8 @@ public class HunterKebbitsPlugin extends Plugin {
         if (script != null) {
             script.shutdown();
         }
+        eventBus.unregister(script); // <<< auch wichtig
+        script.shutdown();
     }
 
 
@@ -86,10 +93,6 @@ public class HunterKebbitsPlugin extends Plugin {
 
     public String getTimeRunning() {
         return scriptStartTime != null ? TimeUtils.getFormattedDurationBetween(scriptStartTime, Instant.now()) : "";
-    }
-
-    @Subscribe
-    public void onGameTick(GameTick event) {
     }
 
 

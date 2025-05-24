@@ -20,6 +20,7 @@ public interface HunterKebbitsConfig extends Config {
             name = "Kabbit to hunt",
             description = "Select which Kabbit to hunt"
     )
+
     default KebbitHunting kebbitHunting() {
         return KebbitHunting.SPOTTED;
     }
@@ -84,4 +85,5 @@ public interface HunterKebbitsConfig extends Config {
         return 5400;
     }
 
+    KebbitHunting kebbitType();
 }
